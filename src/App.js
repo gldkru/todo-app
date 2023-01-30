@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Form } from "./components/Form";
 import { Task } from "./components/Task";
+import { Counter } from "./components/Counter";
 import "./styles.css";
 
 export default function App() {
@@ -31,6 +32,10 @@ export default function App() {
           </Task>
         ))}
       </div>
+      <Counter
+        countCompleted={completedTaskList.length}
+        countTotal={taskList.length}
+      />
     </div>
   );
 }
