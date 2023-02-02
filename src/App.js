@@ -1,19 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Form } from "./components/Form";
 import { Task } from "./components/Task";
 import { Counter } from "./components/Counter";
 import "./styles.css";
 
 export default function App() {
-  const [taskList, setTaskList] = useState(["first", "second"]);
-  const [completedTaskList, setCompletedTaskList] = useState(["second"]);
+  const [taskList, setTaskList] = useState([]);
+  const [completedTaskList, setCompletedTaskList] = useState([]);
   const [error, setError] = useState("");
 
-  const addTask = (task) => setTaskList([...taskList, task]);
+  const addTask = (task) => {
+    const newTaskList = [...taskList, task];
+
+    window.localStorage.setItem("taskList", JSON.stringify(newTaskList));
+
+    setTaskList(newTaskList);
+  };
   const addCompletedTask = (task) =>
     setCompletedTaskList([...completedTaskList, task]);
 
-  const removeTask = (task) => setTaskList(taskList.filter((t) => t !== task));
+  const removeTask = (task) => {
+    const newTaskList = taskList.filter((t) => t !== task);
+
+    window.localStorage.setItem("taskList", JSON.stringify(newTaskList));
+
+    setTaskList(newTaskList);
+  };
   const removeCompletedTask = (task) =>
     setCompletedTaskList(completedTaskList.filter((t) => t !== task));
 
@@ -46,6 +58,13 @@ export default function App() {
     removeTask(task);
     removeCompletedTask(task);
   };
+
+  useEffect(() => {
+    const taskLiskStr = window.localStorage.getItem("taskList");
+    const taskList = JSON.parse(taskLiskStr);
+
+    setTaskList(taskList);
+  }, []);
 
   return (
     <div className="App">
