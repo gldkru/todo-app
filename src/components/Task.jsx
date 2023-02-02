@@ -1,4 +1,4 @@
-export const Task = ({ indx, children, completed, onChange }) => {
+export const Task = ({ indx, children, completed, onChange, onRemove }) => {
   return (
     <label className={`task ${completed ? "line-through" : ""}`}>
       <input
@@ -7,6 +7,7 @@ export const Task = ({ indx, children, completed, onChange }) => {
         onChange={() => onChange(children)}
       />
       {indx}. {children}
+      <button onClick={() => onRemove(children)}>x</button>
     </label>
   );
 };

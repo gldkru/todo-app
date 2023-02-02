@@ -17,7 +17,12 @@ export default function App() {
     }
   };
 
-  const onSubmit = (task) => {
+  const handleRemoveTask = (task) => {
+    setTaskList(taskList.filter((t) => t !== task));
+    setCompletedTaskList(completedTaskList.filter((t) => t !== task));
+  };
+
+  const handleSubmit = (task) => {
     // сброс ошибки
     setError("");
 
@@ -36,7 +41,7 @@ export default function App() {
 
   return (
     <div className="App">
-      <Form onSubmit={onSubmit} />
+      <Form onSubmit={handleSubmit} />
       {error && (
         <div>
           {error} <button onClick={() => setError("")}>x</button>
@@ -51,6 +56,7 @@ export default function App() {
             indx={index + 1}
             completed={completedTaskList.includes(task)}
             onChange={handleCompleteTask}
+            onRemove={handleRemoveTask}
           >
             {task}
           </Task>
