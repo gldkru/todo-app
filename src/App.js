@@ -37,12 +37,17 @@ export default function App() {
   return (
     <div className="App">
       <Form onSubmit={onSubmit} />
-      {error && <div>{error} <button onClick={() => setError('')}>x</button></div>}
+      {error && (
+        <div>
+          {error} <button onClick={() => setError("")}>x</button>
+        </div>
+      )}
       <div>{JSON.stringify(taskList)}</div>
       <div>{JSON.stringify(completedTaskList)}</div>
       <div>
         {taskList.map((task, index) => (
           <Task
+            key={index}
             indx={index + 1}
             completed={completedTaskList.includes(task)}
             onChange={handleCompleteTask}
