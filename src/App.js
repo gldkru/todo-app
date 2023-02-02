@@ -9,18 +9,13 @@ export default function App() {
   const [completedTaskList, setCompletedTaskList] = useState(["second"]);
   const [error, setError] = useState("");
 
-  const handleCompleteTask = (task) => {
-    if (completedTaskList.includes(task)) {
-      setCompletedTaskList(completedTaskList.filter((t) => t !== task));
-    } else {
-      setCompletedTaskList([...completedTaskList, task]);
-    }
-  };
+  const addTask = (task) => setTaskList([...taskList, task]);
+  const addCompletedTask = (task) =>
+    setCompletedTaskList([...completedTaskList, task]);
 
-  const handleRemoveTask = (task) => {
-    setTaskList(taskList.filter((t) => t !== task));
+  const removeTask = (task) => setTaskList(taskList.filter((t) => t !== task));
+  const removeCompletedTask = (task) =>
     setCompletedTaskList(completedTaskList.filter((t) => t !== task));
-  };
 
   const handleSubmit = (task) => {
     // сброс ошибки
@@ -36,7 +31,20 @@ export default function App() {
       return;
     }
 
-    setTaskList([...taskList, task]);
+    addTask(task);
+  };
+
+  const handleCompleteTask = (task) => {
+    if (completedTaskList.includes(task)) {
+      removeCompletedTask(task);
+    } else {
+      addCompletedTask(task);
+    }
+  };
+
+  const handleRemoveTask = (task) => {
+    removeTask(task);
+    removeCompletedTask(task);
   };
 
   return (
