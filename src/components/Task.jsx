@@ -4,7 +4,7 @@ export const Task = ({ indx, children, completed, onChange, onRemove }) => {
       <input
         type="checkbox"
         checked={completed}
-        onChange={() => onChange(children)}
+        onChange={(e) => onChange(e.target.checked)}
       />
       {indx}. {children}
       <button onClick={() => onRemove(children)}>x</button>

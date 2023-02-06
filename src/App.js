@@ -42,7 +42,17 @@ export default function App() {
     addTask(task);
   };
 
-  const handleCompleteTask = (task) => {};
+  const handleCompleteTask = (value, id) => {
+    const newTaskList = taskList.map((task) => {
+      if (task.id === id) {
+        task.completed = value;
+      }
+
+      return task;
+    });
+
+    setTaskList(newTaskList);
+  };
 
   const handleRemoveTask = (task) => {
     removeTask(task);
@@ -75,7 +85,7 @@ export default function App() {
                 key={task.id}
                 indx={index + 1}
                 completed={task.completed}
-                onChange={handleCompleteTask}
+                onChange={(value) => handleCompleteTask(value, task.id)}
                 onRemove={handleRemoveTask}
               >
                 {task.name}
