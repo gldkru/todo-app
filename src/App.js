@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Form } from "./components/Form";
-// import { Task } from "./components/Task";
+import { Task } from "./components/Task";
 // import { Counter } from "./components/Counter";
 import "./styles.css";
 
@@ -67,27 +67,27 @@ export default function App() {
         </div>
       )}
       <div>{JSON.stringify(taskList)}</div>
-      {/* {!!taskList && !!taskList.length && (
+      {!!taskList && !!taskList.length && (
         <>
           <div>
             {taskList.map((task, index) => (
               <Task
-                key={index}
+                key={task.id}
                 indx={index + 1}
-                completed={completedTaskList.includes(task)}
+                completed={task.completed}
                 onChange={handleCompleteTask}
                 onRemove={handleRemoveTask}
               >
-                {task}
+                {task.name}
               </Task>
             ))}
           </div>
-          <Counter
+          {/* <Counter
             countCompleted={completedTaskList.length}
             countTotal={taskList.length}
-          />
+          /> */}
         </>
-      )} */}
+      )}
     </div>
   );
 }
