@@ -7,7 +7,7 @@ export const Task = ({ indx, children, completed, onChange, onRemove }) => {
         onChange={(e) => onChange(e.target.checked)}
       />
       {indx}. {children}
-      <button onClick={() => onRemove(children)}>x</button>
+      <button onClick={onRemove}>x</button>
     </label>
   );
 };
