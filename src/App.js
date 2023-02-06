@@ -1,33 +1,33 @@
 import { useState, useEffect } from "react";
 import { Form } from "./components/Form";
-import { Task } from "./components/Task";
-import { Counter } from "./components/Counter";
+// import { Task } from "./components/Task";
+// import { Counter } from "./components/Counter";
 import "./styles.css";
 
 export default function App() {
   const [taskList, setTaskList] = useState([]);
-  const [completedTaskList, setCompletedTaskList] = useState([]);
   const [error, setError] = useState("");
 
   const addTask = (task) => {
-    const newTaskList = [...taskList, task];
+    const newTaskItem = {
+      id: taskList.length + 1,
+      name: task,
+      completed: false,
+    };
+    const newTaskList = [...taskList, newTaskItem];
 
-    window.localStorage.setItem("taskList", JSON.stringify(newTaskList));
+    // window.localStorage.setItem("taskList", JSON.stringify(newTaskList));
 
     setTaskList(newTaskList);
   };
-  const addCompletedTask = (task) =>
-    setCompletedTaskList([...completedTaskList, task]);
 
   const removeTask = (task) => {
     const newTaskList = taskList.filter((t) => t !== task);
 
-    window.localStorage.setItem("taskList", JSON.stringify(newTaskList));
+    // window.localStorage.setItem("taskList", JSON.stringify(newTaskList));
 
     setTaskList(newTaskList);
   };
-  const removeCompletedTask = (task) =>
-    setCompletedTaskList(completedTaskList.filter((t) => t !== task));
 
   const handleSubmit = (task) => {
     // сброс ошибки
@@ -35,39 +35,28 @@ export default function App() {
 
     // пустая задача
     if (!task) {
-      return;
-    }
-
-    if (taskList.includes(task)) {
-      setError("Такая задача уже есть");
+      setError("Пожалуйста, укажите название задачи");
       return;
     }
 
     addTask(task);
   };
 
-  const handleCompleteTask = (task) => {
-    if (completedTaskList.includes(task)) {
-      removeCompletedTask(task);
-    } else {
-      addCompletedTask(task);
-    }
-  };
+  const handleCompleteTask = (task) => {};
 
   const handleRemoveTask = (task) => {
     removeTask(task);
-    removeCompletedTask(task);
   };
 
-  useEffect(() => {
-    const taskListStr = window.localStorage.getItem("taskList");
+  // useEffect(() => {
+  //   const taskListStr = window.localStorage.getItem("taskList");
 
-    if (taskListStr) {
-      const taskList = JSON.parse(taskListStr);
+  //   if (taskListStr) {
+  //     const taskList = JSON.parse(taskListStr);
 
-      setTaskList(taskList);
-    }
-  }, []);
+  //     setTaskList(taskList);
+  //   }
+  // }, []);
 
   return (
     <div className="App">
@@ -78,8 +67,7 @@ export default function App() {
         </div>
       )}
       <div>{JSON.stringify(taskList)}</div>
-      <div>{JSON.stringify(completedTaskList)}</div>
-      {!!taskList && !!taskList.length && (
+      {/* {!!taskList && !!taskList.length && (
         <>
           <div>
             {taskList.map((task, index) => (
@@ -99,7 +87,7 @@ export default function App() {
             countTotal={taskList.length}
           />
         </>
-      )}
+      )} */}
     </div>
   );
 }
