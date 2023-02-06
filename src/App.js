@@ -60,10 +60,13 @@ export default function App() {
   };
 
   useEffect(() => {
-    const taskLiskStr = window.localStorage.getItem("taskList");
-    const taskList = JSON.parse(taskLiskStr);
+    const taskListStr = window.localStorage.getItem("taskList");
 
-    setTaskList(taskList);
+    if (taskListStr) {
+      const taskList = JSON.parse(taskListStr);
+
+      setTaskList(taskList);
+    }
   }, []);
 
   return (
@@ -76,23 +79,27 @@ export default function App() {
       )}
       <div>{JSON.stringify(taskList)}</div>
       <div>{JSON.stringify(completedTaskList)}</div>
-      <div>
-        {taskList.map((task, index) => (
-          <Task
-            key={index}
-            indx={index + 1}
-            completed={completedTaskList.includes(task)}
-            onChange={handleCompleteTask}
-            onRemove={handleRemoveTask}
-          >
-            {task}
-          </Task>
-        ))}
-      </div>
-      <Counter
-        countCompleted={completedTaskList.length}
-        countTotal={taskList.length}
-      />
+      {!!taskList && !!taskList.length && (
+        <>
+          <div>
+            {taskList.map((task, index) => (
+              <Task
+                key={index}
+                indx={index + 1}
+                completed={completedTaskList.includes(task)}
+                onChange={handleCompleteTask}
+                onRemove={handleRemoveTask}
+              >
+                {task}
+              </Task>
+            ))}
+          </div>
+          <Counter
+            countCompleted={completedTaskList.length}
+            countTotal={taskList.length}
+          />
+        </>
+      )}
     </div>
   );
 }
