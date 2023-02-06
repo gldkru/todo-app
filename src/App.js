@@ -21,7 +21,7 @@ export default function App() {
     };
     const newTaskList = [...taskList, newTaskItem];
 
-    // window.localStorage.setItem("taskList", JSON.stringify(newTaskList));
+    window.localStorage.setItem("taskList", JSON.stringify(newTaskList));
 
     setTaskList(newTaskList);
   };
@@ -29,7 +29,7 @@ export default function App() {
   const removeTask = (id) => {
     const newTaskList = taskList.filter((task) => task.id !== id);
 
-    // window.localStorage.setItem("taskList", JSON.stringify(newTaskList));
+    window.localStorage.setItem("taskList", JSON.stringify(newTaskList));
 
     setTaskList(newTaskList);
   };
@@ -56,6 +56,8 @@ export default function App() {
       return task;
     });
 
+    window.localStorage.setItem("taskList", JSON.stringify(newTaskList));
+
     setTaskList(newTaskList);
   };
 
@@ -63,15 +65,15 @@ export default function App() {
     removeTask(task);
   };
 
-  // useEffect(() => {
-  //   const taskListStr = window.localStorage.getItem("taskList");
+  useEffect(() => {
+    const taskListStr = window.localStorage.getItem("taskList");
 
-  //   if (taskListStr) {
-  //     const taskList = JSON.parse(taskListStr);
+    if (taskListStr) {
+      const taskList = JSON.parse(taskListStr);
 
-  //     setTaskList(taskList);
-  //   }
-  // }, []);
+      setTaskList(taskList);
+    }
+  }, []);
 
   return (
     <div className="App">
