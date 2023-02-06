@@ -1,12 +1,17 @@
 import { useState, useEffect } from "react";
 import { Form } from "./components/Form";
 import { Task } from "./components/Task";
-// import { Counter } from "./components/Counter";
+import { Counter } from "./components/Counter";
 import "./styles.css";
 
 export default function App() {
   const [taskList, setTaskList] = useState([]);
   const [error, setError] = useState("");
+
+  const countCompletedTasks = taskList.reduce(
+    (acc, value) => (value.completed ? acc + 1 : acc),
+    0
+  );
 
   const addTask = (task) => {
     const newTaskItem = {
@@ -92,10 +97,10 @@ export default function App() {
               </Task>
             ))}
           </div>
-          {/* <Counter
-            countCompleted={completedTaskList.length}
+          <Counter
+            countCompleted={countCompletedTasks}
             countTotal={taskList.length}
-          /> */}
+          />
         </>
       )}
     </div>
