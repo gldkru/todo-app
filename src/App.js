@@ -2,20 +2,11 @@ import { useState } from "react";
 import { Form } from "./components/Form";
 import { Task } from "./components/Task";
 import { Counter } from "./components/Counter";
+import { useLocalStorage } from "./hooks/useLocalStorage";
 import "./styles.css";
 
-const initialTaskList = () => {
-  const taskListStr = window.localStorage.getItem("taskList");
-
-  if (taskListStr) {
-    return JSON.parse(taskListStr);
-  } else {
-    return [];
-  }
-};
-
 export default function App() {
-  const [taskList, setTaskList] = useState(() => initialTaskList());
+  const [taskList, setTaskList] = useLocalStorage("taskList", []);
   const [error, setError] = useState("");
 
   const countCompletedTasks = taskList.reduce(
@@ -31,15 +22,11 @@ export default function App() {
     };
     const newTaskList = [...taskList, newTaskItem];
 
-    window.localStorage.setItem("taskList", JSON.stringify(newTaskList));
-
     setTaskList(newTaskList);
   };
 
   const removeTask = (id) => {
     const newTaskList = taskList.filter((task) => task.id !== id);
-
-    window.localStorage.setItem("taskList", JSON.stringify(newTaskList));
 
     setTaskList(newTaskList);
   };
@@ -65,8 +52,6 @@ export default function App() {
 
       return task;
     });
-
-    window.localStorage.setItem("taskList", JSON.stringify(newTaskList));
 
     setTaskList(newTaskList);
   };
