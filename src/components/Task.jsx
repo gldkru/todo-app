@@ -1,4 +1,14 @@
+import { useEffect } from "react";
+
 export const Task = ({ indx, children, completed, onChange, onRemove }) => {
+  useEffect(() => {
+    console.log(indx, "componentDidMount");
+
+    return () => {
+      console.log(indx, "componentDidUnmount");
+    };
+  }, [completed]);
+
   return (
     <label className={`task ${completed ? "line-through" : ""}`}>
       <input

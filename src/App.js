@@ -1,11 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Form } from "./components/Form";
 import { Task } from "./components/Task";
 import { Counter } from "./components/Counter";
 import "./styles.css";
 
+const initialTaskList = () => {
+  const taskListStr = window.localStorage.getItem("taskList");
+
+  if (taskListStr) {
+    return JSON.parse(taskListStr);
+  } else {
+    return [];
+  }
+};
+
 export default function App() {
-  const [taskList, setTaskList] = useState([]);
+  const [taskList, setTaskList] = useState(() => initialTaskList());
   const [error, setError] = useState("");
 
   const countCompletedTasks = taskList.reduce(
@@ -65,16 +75,6 @@ export default function App() {
     removeTask(task);
   };
 
-  useEffect(() => {
-    const taskListStr = window.localStorage.getItem("taskList");
-
-    if (taskListStr) {
-      const taskList = JSON.parse(taskListStr);
-
-      setTaskList(taskList);
-    }
-  }, []);
-
   return (
     <div className="App">
       <Form onSubmit={handleSubmit} />
@@ -84,7 +84,7 @@ export default function App() {
         </div>
       )}
       <div>{JSON.stringify(taskList)}</div>
-      {!!taskList && !!taskList.length && (
+      {!!taskList && !!taskList.length ? (
         <>
           <div>
             {taskList.map((task, index) => (
@@ -104,6 +104,8 @@ export default function App() {
             countTotal={taskList.length}
           />
         </>
+      ) : (
+        <div>Задач нет</div>
       )}
     </div>
   );
