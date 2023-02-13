@@ -6,9 +6,10 @@ import { intialTaskList } from "./state";
 import { taskReducer, errorReducer } from "./reducers";
 
 export default function TaskList() {
+  const storageKey = "taskList";
   const [taskList, dispatchTaskList] = useReducer(
     taskReducer,
-    { storgeKey: "taskList", initialValue: [] },
+    { storageKey, initialValue: [] },
     intialTaskList
   );
   const [error, dispatchError] = useReducer(errorReducer, "");
@@ -35,15 +36,20 @@ export default function TaskList() {
       return;
     }
 
-    dispatchTaskList({ type: "ADD_TASK", task });
+    dispatchTaskList({ type: "ADD_TASK", task, storageKey });
   };
 
   const handleCompleteTask = (value, id) => {
-    dispatchTaskList({ type: "COMPLETE_TASK", value, id });
+    dispatchTaskList({
+      type: "COMPLETE_TASK",
+      value,
+      id,
+      storageKey,
+    });
   };
 
   const handleRemoveTask = (id) => {
-    dispatchTaskList({ type: "REMOVE_TASK", id });
+    dispatchTaskList({ type: "REMOVE_TASK", id, storageKey });
   };
 
   return (
