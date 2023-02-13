@@ -2,12 +2,15 @@ import { useReducer } from "react";
 import { Form } from "../Form";
 import { Task } from "../Task";
 import { Counter } from "../Counter";
+import { intialTaskList } from "./state";
 import { taskReducer, errorReducer } from "./reducers";
-// import { useLocalStorage } from "./hooks/useLocalStorage";
 
 export default function TaskList() {
-  // const [taskList, setTaskList] = useLocalStorage("taskList", []);
-  const [taskList, dispatchTaskList] = useReducer(taskReducer, []);
+  const [taskList, dispatchTaskList] = useReducer(
+    taskReducer,
+    { storgeKey: "taskList", initialValue: [] },
+    intialTaskList
+  );
   const [error, dispatchError] = useReducer(errorReducer, "");
 
   const countCompletedTasks = taskList.reduce(
