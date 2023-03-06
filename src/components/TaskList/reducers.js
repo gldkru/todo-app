@@ -43,6 +43,20 @@ export function taskReducer(taskList, action) {
 
       return newTaskList;
     }
+
+    // case "FILTER_TASKS": {
+    //   if (action.completed === null) {
+    //     return newTaskList;
+    //   }
+
+    //   console.log(taskList);
+
+    //   const newTaskList = taskList.filter(
+    //     (task) => task.completed !== action.completed
+    //   );
+
+    //   return newTaskList;
+    // }
   }
 }
 

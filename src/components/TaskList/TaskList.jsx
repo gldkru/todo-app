@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useReducer, useMemo, useState } from "react";
 import { Form } from "../Form";
 import { Task } from "../Task";
 import { Counter } from "../Counter";
@@ -13,11 +13,32 @@ export default function TaskList() {
     intialTaskList
   );
   const [error, dispatchError] = useReducer(errorReducer, "");
+  const [filterActive, setFilterActive] = useState("");
 
-  const countCompletedTasks = taskList.reduce(
-    (acc, value) => (value.completed ? acc + 1 : acc),
-    0
-  );
+  // dispatch(action) => reducer(state, action) => newState
+
+  // const countCompletedTasks = (() => {
+  //   console.log("render");
+  //   return taskList.reduce(
+  //     (acc, value) => (value.completed ? acc + 1 : acc),
+  //     0
+  //   );
+  // })();
+
+  const countCompletedTasks = useMemo(() => {
+    return filterActive === ""
+      ? taskList.reduce((acc, value) => (value.completed ? acc + 1 : acc), 0)
+      : -1;
+  }, [taskList, filterActive]);
+
+  const filteredTaskList = useMemo(() => {
+    if (filterActive === "") {
+      return taskList;
+    }
+    const value = filterActive === "true";
+
+    return taskList.filter((task) => task.completed !== value);
+  }, [taskList, filterActive]);
 
   const handleCleanError = () => {
     dispatchError({ type: "CLEAN_ERROR" });
@@ -52,6 +73,20 @@ export default function TaskList() {
     dispatchTaskList({ type: "REMOVE_TASK", id, storageKey });
   };
 
+  const handleChangeFilter = (event) => {
+    // const value = event.target.value;
+
+    // if (value === "true") {
+    //   dispatchTaskList({ type: "FILTER_TASKS", completed: true });
+    // } else if (value === "false") {
+    //   dispatchTaskList({ type: "FILTER_TASKS", completed: false });
+    // } else {
+    //   dispatchTaskList({ type: "FILTER_TASKS", completed: null });
+    // }
+
+    setFilterActive(event.target.value);
+  };
+
   return (
     <>
       <Form onSubmit={handleSubmit} />
@@ -60,11 +95,20 @@ export default function TaskList() {
           {error} <button onClick={handleCleanError}>x</button>
         </div>
       )}
-      <div>{JSON.stringify(taskList)}</div>
+      {/* <br />
+      <div>{JSON.stringify(taskList)}</div> */}
+      <br />
+      <select value={filterActive} onChange={handleChangeFilter}>
+        <option value="">Все</option>
+        <option value="true">Незавершенные</option>
+        <option value="false">Завершенные</option>
+      </select>
+      <br />
+      <br />
       {!!taskList && !!taskList.length ? (
         <>
           <div>
-            {taskList.map((task, index) => (
+            {filteredTaskList.map((task, index) => (
               <Task
                 key={task.id}
                 indx={index + 1}
@@ -78,7 +122,7 @@ export default function TaskList() {
           </div>
           <Counter
             countCompleted={countCompletedTasks}
-            countTotal={taskList.length}
+            countTotal={filteredTaskList.length}
           />
         </>
       ) : (
