@@ -12,3 +12,5 @@ import { getItemStorage } from "./utils";
 
 export const intialTaskList = ({ storageKey, initialValue }) =>
   getItemStorage(storageKey) || initialValue;
+
+export const storageKey = "taskList";

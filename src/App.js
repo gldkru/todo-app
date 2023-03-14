@@ -1,10 +1,10 @@
-import TaskList from "./components/TaskList/TaskList";
+import { TaskApp } from "./components/TaskApp";
 import "./styles.css";
 
 export default function App() {
   return (
     <div className="App">
-      <TaskList />
+      <TaskApp />
     </div>
   );
 }
